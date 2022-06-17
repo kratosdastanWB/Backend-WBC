@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+    web:
+      build: .
+      ports:
+         - "5000:5000"  
+      volumes:
+         - .:/app
+      environment:
+         FLASK_ENV: development
+    redis:
+        image: 'redis:alpine'
+    db:
+        image: postgres
+        restart: always
+        environment:
+          POSTGRES_PASSWORD: example   
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+          - 8080:8080       
+
