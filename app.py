@@ -2,6 +2,7 @@ import time
 
 import redis
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 cache = redis.Redis(host='redis', port=6379)
