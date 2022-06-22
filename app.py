@@ -88,7 +88,7 @@ def expire_date(days: int):
 
 def write_token(data):
     token = encode(payload={**data, "exp": expire_date(2)} , 
-                    key="637bxrO9mEZ7NhTkSqgCMmWzYIGJaKNy", algorithm="HS256")
+                    key=app.config['SECRET_KEY'], algorithm="HS256")
     return token.encode("UTF-8")
 
 def validate_token(token, output=False):
@@ -121,10 +121,10 @@ def login():
 def verify():
     token = request.headers['Authorization'].split(" ")[1]
     return validate_token(token, output=True)
-@app.before_request
-def verify_token_middleware():
-    token = request.headers['Authorization'].split(" ")[1]
-    return validate_token(token, output=False)
+# @app.before_request
+# def verify_token_middleware():
+#     token = request.headers['Authorization'].split(" ")[1]
+#     return validate_token(token, output=False)
 
 @app.route('/home')
 def hello():
