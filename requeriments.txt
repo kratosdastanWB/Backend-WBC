@@ -5,3 +5,4 @@ Flask-Migrate
 flask-login
 psycopg2-binary
 PyJWT
+flask_migrate
