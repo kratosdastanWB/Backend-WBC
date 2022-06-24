@@ -9,6 +9,7 @@ services:
          - .:/app
       environment:
          FLASK_ENV: development
+         DATABASE_URL: postgresql:///WBC
     redis:
         image: 'redis:alpine'
     db:
