@@ -6,16 +6,15 @@ from flask import Flask, jsonify, request
 from sqlalchemy import create_engine
 import logging
 from jwt import encode,decode
-from jwt import exceptions
-
+from jwt import exceptionsA
 #Models
 
 from models.ModelUser import ModelUser
-
+from models.ModelPermission import ModelPermission
 #Entities
 
 from models.entities.User import  User
-
+from models.entities.Permission import Permission
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '637bxrO9mEZ7NhTkSqgCMmWzYIGJaKNy'
 
@@ -56,8 +55,12 @@ def log():
         user =User(0,request.form['email'],request.form['password'])
         logging.debug("voy a intentar entrar a login")
         logged_user=ModelUser.login(con,user)
+
         if logged_user != None:
             if logged_user.password:
+                role_user = ModelUser.current_role(logged_user)
+                #colocar condiciones segun el Rol
+                permissions=ModelPermission.permissions(con, logged_user)
                 return jsonify({"message": "Usuario loggeado con exito"})
             else:
                 return jsonify({"message": "Error al iniciar sesion"})    
@@ -121,10 +124,10 @@ def login():
 def verify():
     token = request.headers['Authorization'].split(" ")[1]
     return validate_token(token, output=True)
-@app.before_request
-def verify_token_middleware():
-    token = request.headers['Authorization'].split(" ")[1]
-    return validate_token(token, output=False)
+# @app.before_request
+# def verify_token_middleware():
+#     token = request.headers['Authorization'].split(" ")[1]
+#     return validate_token(token, output=False)
 
 @app.route('/home')
 def hello():
