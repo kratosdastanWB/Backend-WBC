@@ -52,7 +52,7 @@ def execute_queries(query):
 @app.route('/log', methods=['POST'])
 def log():
     if request.method=='POST':
-        user =User(0,request.form['email'],request.form['password'])
+        user =User(0,request.form['email'],request.form['password'], 0, 0)
         logging.debug("voy a intentar entrar a login")
         logged_user=ModelUser.login(con,user)
 
